@@ -1,0 +1,221 @@
+<ngb-alert #messageBox *ngIf="showMessageBox" [type]="messageBoxType" (closed)="showMessageBox = false" [innerHtml]="message" style="position: absolute; z-index: 999;">
+</ngb-alert>
+
+<h2>AG Data Application Assessment</h2>
+<p class="lead">
+  Welcome to my assessment project. All code is available through my <a href="https://github.com/bcristinziani/AGDATAAssessment">Github repository</a> for your review.
+  But as a convenience, I have spun up the application on an Azure app service.
+</p>
+
+<hr class="mb-5" />
+
+<div class="row">
+  <div class="col-md-2">
+    <div class="card">
+      <div class="card-body text-center">
+        <h5>
+          <fa-icon [icon]="faUser" class="fa-5x"></fa-icon>
+        </h5>
+        <button type="button" class="btn btn-success" (click)="openModal(addModal, null)">Add Person</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-10">
+    <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+      <li [ngbNavItem]="1">
+        <a ngbNavLink>People</a>
+        <ng-template ngbNavContent>
+          <hr class="invisible mt-2" />
+
+          <div class="row" *ngIf="people?.length == 0">
+            <div class="col-md-12 text-center">
+              <h2>No Results</h2>
+              <fa-icon [icon]="faTriangleExclamation" class="fa-5x"></fa-icon>
+            </div>
+          </div>
+
+          <table class="table table-bordered table-hover" *ngIf="people?.length > 0">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let person of people">
+                <td>{{ person.name }}</td>
+                <td>
+                  <p class="mb-0">{{ person.addressLine1 }}</p>
+                  <p class="mb-0" *ngIf="person.addressLine1">{{ person.addressLine2 }}</p>
+                  <p class="mb-0">{{ person.city }}, {{ person.state }} {{ person.zip }}</p>
+                </td>
+                <td class="text-center">
+                  <button type="button" class="btn btn-primary" (click)="openModal(updateModal, person)">Update</button>
+                </td>
+                <td class="text-center">
+                  <button type="button" class="btn btn-danger" (click)="openModal(deleteModal, person)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-template>
+      </li>
+    </ul>
+
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  </div>
+</div>
+
+<!-- Update person modal -->
+<ng-template #updateModal let-updatePersonModal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="update-modal-title">Update Person</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="updatePersonModal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-5">
+        <label for="name">Name</label>
+        <input id="name" class="form-control mb-3" type="text" [(ngModel)]="selectedPerson.name" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-5">
+        <label for="addressLine1">Address Line 1</label>
+        <input id="addressLine1" class="form-control mb-3" type="text" [(ngModel)]="selectedPerson.addressLine1" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-5">
+        <label for="addressLine2">Address Line 2</label>
+        <input id="addressLine2" class="form-control mb-3" type="text" [(ngModel)]="selectedPerson.addressLine2" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-5">
+        <label for="city">City</label>
+        <input id="city" class="form-control" type="text" [(ngModel)]="selectedPerson.city" />
+      </div>
+      <div class="col-md-2">
+        <label for="state">State</label>
+        <input id="state" class="form-control" type="text" [(ngModel)]="selectedPerson.state" />
+      </div>
+      <div class="col-md-4">
+        <label for="zip">Zip Code</label>
+        <input id="zip" class="form-control" type="text" [(ngModel)]="selectedPerson.zip" />
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="updatePerson()">Update</button>
+  </div>
+</ng-template>
+
+<!-- Add person modal -->
+<ng-template #addModal let-addPersonModal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="add-modal-title">Add Person</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="addPersonModal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <label for="name">Name</label>
+        <input id="name" class="form-control mb-3" type="text" [(ngModel)]="newPerson.name" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <label for="addressLine1">Address Line 1</label>
+        <input id="addressLine1" class="form-control mb-3" type="text" [(ngModel)]="newPerson.addressLine1" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <label for="addressLine2">Address Line 2</label>
+        <input id="addressLine2" class="form-control mb-3" type="text" [(ngModel)]="newPerson.addressLine2" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-5">
+        <label for="city">City</label>
+        <input id="city" class="form-control" type="text" [(ngModel)]="newPerson.city" />
+      </div>
+      <div class="col-md-2">
+        <label for="state">State</label>
+        <input id="state" class="form-control" type="text" [(ngModel)]="newPerson.state" />
+      </div>
+      <div class="col-md-4">
+        <label for="zip">Zip Code</label>
+        <input id="zip" class="form-control" type="text" [(ngModel)]="newPerson.zip" />
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="addPerson()">Add</button>
+  </div>
+</ng-template>
+
+<!-- Update person modal -->
+<ng-template #updateModal let-updatePersonModal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="update-modal-title">Update Person</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="updatePersonModal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-5">
+        <label for="name">Name</label>
+        <input id="name" class="form-control" type="text" [(ngModel)]="selectedPerson.name" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-5">
+        <label for="addressLine1">Address Line 1</label>
+        <input id="addressLine1" class="form-control" type="text" [(ngModel)]="selectedPerson.addressLine1" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-5">
+        <label for="addressLine2">Address Line 2</label>
+        <input id="addressLine2" class="form-control" type="text" [(ngModel)]="selectedPerson.addressLine2" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-5">
+        <label for="city">City</label>
+        <input id="city" class="form-control" type="text" [(ngModel)]="selectedPerson.city" />
+      </div>
+      <div class="col-md-2">
+        <label for="state">State</label>
+        <input id="state" class="form-control" type="text" [(ngModel)]="selectedPerson.state" />
+      </div>
+      <div class="col-md-4">
+        <label for="zip">Zip Code</label>
+        <input id="zip" class="form-control" type="text" [(ngModel)]="selectedPerson.zip" />
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="updatePerson()">Update</button>
+  </div>
+</ng-template>
+
+<!-- Delete person modal -->
+<ng-template #deleteModal let-deletePersonModal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="delete-modal-title">Delete Person</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="deletePersonModal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    Are you sure you want to delete <strong>{{ selectedPerson.name }}</strong>?
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="deletePerson()">Delete</button>
+  </div>
+</ng-template>
