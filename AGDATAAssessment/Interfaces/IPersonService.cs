@@ -5,8 +5,8 @@ namespace AGDATAAssessment.Interfaces
     public interface IPersonService
     {
         public IList<Person> GetPeople();
-        public IList<Person> Add(Person person);
-        public IList<Person> Update(Person person);
-        public IList<Person> Delete(int personId);
+        public void Add(Person person);
+        public void Update(Person person);
+        public void Delete(int personId);
     }
 }

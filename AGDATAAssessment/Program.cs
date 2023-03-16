@@ -21,8 +21,13 @@ dbconn.Open();
 builder.Services.AddDbContext<AgDataDbContext>(db => db.UseSqlite(dbconn));
 
 
+// Initialize caching
+builder.Services.AddMemoryCache();
+
+
 // Add scoped service for dependency injection
 builder.Services.AddScoped<IPersonService, PersonService>();
+builder.Services.AddScoped<IApplicationCache, ApplicationCache>();
 
 
 // Remove default model state behavior so that custom exception filter can manage exceptions

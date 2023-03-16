@@ -1,6 +1,7 @@
 ﻿using AGDATAAssessment.Data;
 using AGDATAAssessment.Data.Models;
 using AGDATAAssessment.Interfaces;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace AGDATAAssessment.Services
 {
@@ -18,29 +19,23 @@ namespace AGDATAAssessment.Services
             return _dbcontext.People.ToList();
         }
 
-        public IList<Person> Add(Person person)
+        public void Add(Person person)
         {
             _dbcontext.People.Add(person);
             _dbcontext.SaveChanges();
-
-            return _dbcontext.People.ToList();
         }
 
-        public IList<Person> Update(Person person)
+        public void Update(Person person)
         {
             _dbcontext.People.Update(person);
             _dbcontext.SaveChanges();
-
-            return _dbcontext.People.ToList();
         }
 
-        public IList<Person> Delete(int personId)
+        public void Delete(int personId)
         {
             var person = _dbcontext.People.Where(p => p.PersonId == personId).FirstOrDefault();
             _dbcontext.People.Remove(person);
             _dbcontext.SaveChanges();
-
-            return _dbcontext.People.ToList();
         }
     }
 }

@@ -12,14 +12,16 @@ namespace AGDATAAssessment.api
     public class PersonController : ControllerBase
     {
         private readonly IPersonService _personService;
+        private readonly IApplicationCache _cache;
 
         /// <summary>
         /// API methods for managing Person records
         /// </summary>
         /// <param name="personService"></param>
-        public PersonController(IPersonService personService)
+        public PersonController(IPersonService personService, IApplicationCache cache)
         {
             _personService = personService;
+            _cache = cache;
         }
 
         /// <summary>
@@ -33,9 +35,11 @@ namespace AGDATAAssessment.api
         [HttpGet]
         [ProducesResponseType(typeof(IList<Person>), 200)]
         [ProducesResponseType(500)]
-        public IList<Person> GetPeople()
+        public async Task<IList<Person>> GetPeople()
         {
-            return _personService.GetPeople();
+            var task = await _cache.GetList<Person>(CacheKeys.People);
+            return task;
+            
         }
 
         /// <summary>
@@ -52,11 +56,16 @@ namespace AGDATAAssessment.api
         [ProducesResponseType(typeof(IList<Person>), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public IList<Person> Add(Person person)
+        public async Task<IList<Person>> Add(Person person)
         {
             ValidationService.Validate(ModelState);
 
-            return _personService.Add(person);
+            _personService.Add(person);
+
+            _cache.Refresh(CacheKeys.People);
+
+            var task = await _cache.GetList<Person>(CacheKeys.People);
+            return task;
         }
 
         /// <summary>
@@ -73,11 +82,16 @@ namespace AGDATAAssessment.api
         [ProducesResponseType(typeof(IList<Person>), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public IList<Person> Update(Person person)
+        public async Task<IList<Person>> Update(Person person)
         {
             ValidationService.Validate(ModelState);
 
-            return _personService.Update(person);
+            _personService.Update(person);
+
+            _cache.Refresh(CacheKeys.People);
+
+            var task = await _cache.GetList<Person>(CacheKeys.People);
+            return task;
         }
 
         /// <summary>
@@ -94,12 +108,16 @@ namespace AGDATAAssessment.api
         [ProducesResponseType(typeof(IList<Person>), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public IList<Person> Delete(int personId)
+        public async Task<IList<Person>> Delete(int personId)
         {
             ValidationService.Validate(ModelState);
 
-            return _personService.Delete(personId);
+            _personService.Delete(personId);
 
+            _cache.Refresh(CacheKeys.People);
+
+            var task = await _cache.GetList<Person>(CacheKeys.People);
+            return task;
         }
     }
 }
