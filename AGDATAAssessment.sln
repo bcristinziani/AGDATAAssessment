@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.33414.496
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGDATAAssessment", "AGDATAAssessment\AGDATAAssessment.csproj", "{FB51806D-1999-4ABD-A20E-FC743DC2E691}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AGDATATest", "AGDATATest\AGDATATest.csproj", "{F4728314-7B7F-42DC-9FCB-D9BC15B20036}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{FB51806D-1999-4ABD-A20E-FC743DC2E691}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB51806D-1999-4ABD-A20E-FC743DC2E691}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB51806D-1999-4ABD-A20E-FC743DC2E691}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4728314-7B7F-42DC-9FCB-D9BC15B20036}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4728314-7B7F-42DC-9FCB-D9BC15B20036}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4728314-7B7F-42DC-9FCB-D9BC15B20036}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4728314-7B7F-42DC-9FCB-D9BC15B20036}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
